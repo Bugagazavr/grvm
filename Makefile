@@ -3,16 +3,17 @@
 all: deps crosscompile dist
 
 deps:
+	go get github.com/mitchellh/gox
 	go get ./...
 
 build:
 	go build grvm.go
 
 crosscompile:
-	GOOS=linux   GOARCH=amd64 go build -o ./crosscompile/linux_amd64_grvm   grvm.go
-	GOOS=linux   GOARCH=386   go build -o ./crosscompile/linux_386_grvm     grvm.go
-	GOOS=linux   GOARCH=arm   go build -o ./crosscompile/linux_arm_grvm     grvm.go
-	GOOS=darwin  GOARCH=amd64 go build -o ./crosscompile/darwin_amd64_grvm  grvm.go
+	gox --osarch="linux/amd64" --output="crosscompile/linux_amd64_grvm"
+	gox --osarch="linux/386" --output="crosscompile/linux_386_grvm"
+	gox --osarch="linux/arm" --output="crosscompile/linux_arm_grvm"
+	gox --osarch="darwin/amd64" --output="crosscompile/darwin_amd64_grvm"
 
 dist:
 	@for target in crosscompile/*_grvm; do \
