@@ -14,6 +14,19 @@ RVM replacement
 * Rubies list
 * Gemsets maybe
 
+## Installation
+
+```sh
+curl -s https://raw.githubusercontent.com/Bugagazavr/grvm/master/install.sh | bash --
+```
+
+Do not forget add to your `zshrc` or `bashrc`:
+
+```sh
+# GRVM
+[[ -s "$HOME/.grvm/scripts/grvm" ]] && source $HOME/.grvm/scripts/grvm
+```
+
 ## Development
 
 You need Go 1.5 + for development
