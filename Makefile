@@ -1,6 +1,9 @@
 .PHONY: all clean dist
 
-all: crosscompile dist
+all: deps crosscompile dist
+
+deps:
+	go get ./...
 
 build:
 	go build grvm.go
