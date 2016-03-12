@@ -22,4 +22,4 @@ function __grvmFn {
 
 alias grvm=__grvmFn
 
-grvm init
+__grvmFn init
