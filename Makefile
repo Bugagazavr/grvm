@@ -1,6 +1,8 @@
-.PHONY: all clean dist
+.PHONY: all clean dist version
 
-all: deps crosscompile dist
+VERSION := $(shell if [ -z "$$TRAVIS_TAG" ]; then echo "dev"; else echo "$$TRAVIS_TAG" | tail -c +2; fi)
+
+all: deps crosscompile version dist
 
 deps:
 	go get github.com/mitchellh/gox
@@ -10,10 +12,10 @@ build:
 	go build grvm.go
 
 crosscompile:
-	gox --osarch="linux/amd64" --output="crosscompile/linux_amd64_grvm"
-	gox --osarch="linux/386" --output="crosscompile/linux_386_grvm"
-	gox --osarch="linux/arm" --output="crosscompile/linux_arm_grvm"
-	gox --osarch="darwin/amd64" --output="crosscompile/darwin_amd64_grvm"
+	gox --osarch="linux/amd64" --output="crosscompile/linux_amd64_grvm" --ldflags='-X main.version=${VERSION}'
+	gox --osarch="linux/386" --output="crosscompile/linux_386_grvm" --ldflags='-X main.version=${VERSION}'
+	gox --osarch="linux/arm" --output="crosscompile/linux_arm_grvm" --ldflags='-X main.version=${VERSION}'
+	gox --osarch="darwin/amd64" --output="crosscompile/darwin_amd64_grvm" --ldflags='-X main.version=${VERSION}'
 
 dist:
 	@for target in crosscompile/*_grvm; do \

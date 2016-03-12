@@ -15,6 +15,8 @@ const (
 	rubyBuildRepo = "https://github.com/rbenv/ruby-build.git"
 )
 
+var version = ""
+
 var currentHome = os.Getenv("HOME")
 var grvmRuby = os.Getenv("grvm_ruby")
 var grvmDirectory = fmt.Sprintf("%s/.grvm", currentHome)
@@ -39,6 +41,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "GRVM"
 	app.Usage = "GRVM"
+	app.Version = version
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name: "shell, s",
