@@ -86,6 +86,7 @@ case $1 in
 		tmpCleanup
 
 		source $HOME/.grvm/scripts/grvm
+		__grvmFn doctor > /dev/null
 		echo "GRVM has been installed"
 		;;
 esac
