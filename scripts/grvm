@@ -1,1 +1,37 @@
-eval $($HOME/.grvm/bin/grvm env)
+#!/bin/sh
+
+function __grvmEval {
+	eval "$@"
+}
+
+function __grvmFn {
+	case $1 in
+		"init")
+			arg=`$HOME/.grvm/bin/grvm -s env`
+			__grvmEval $arg
+			;;
+		"set"|"use")
+			arg=`$HOME/.grvm/bin/grvm -s set $2 $3 $4 $5`
+			__grvmEval $arg
+			;;
+		*)
+			$HOME/.grvm/bin/grvm "$@"
+			;;
+	esac
+}
+
+function __rvmFn {
+	case $1 in
+		"current")
+			echo $grvm_ruby
+			;;
+		*)
+			rvm "$@"
+			;;
+	esac
+}
+
+alias grvm=__grvmFn
+alias rvm=__rvmFn
+
+grvm init
