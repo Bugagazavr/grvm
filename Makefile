@@ -28,11 +28,5 @@ dist:
 clean:
 	rm -rf crosscompile
 
-localinstall:
-	go build grvm.go
-	rm -rf $$HOME/.grvm
-	mkdir -p $$HOME/.grvm/bin
-	mkdir -p $$HOME/.grvm/scripts
-	cp scripts/grvm $$HOME/.grvm/scripts/grvm
-	cp grvm $$HOME/.grvm/bin/grvm
-	$$HOME/.grvm/bin/grvm doctor
+devinstall:
+	sh install.sh devinstall
