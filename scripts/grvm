@@ -20,18 +20,6 @@ function __grvmFn {
 	esac
 }
 
-function __rvmFn {
-	case $1 in
-		"current")
-			echo $grvm_ruby
-			;;
-		*)
-			rvm "$@"
-			;;
-	esac
-}
-
 alias grvm=__grvmFn
-alias rvm=__rvmFn
 
 grvm init
