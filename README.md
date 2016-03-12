@@ -34,7 +34,7 @@ You need Go 1.5 + for development
 mkdir -p $GOPATH/src/github.com/Bugagazavr/grvm
 git clone https://github.com/Bugagazavr/grvm.git $GOPATH/src/github.com/Bugagazavr/grvm
 cd $GOPATH/src/github.com/Bugagazavr/grvm
-make localinstall
+make devinstall
 source ~/.grvm/scripts/grvm
 ```
 
