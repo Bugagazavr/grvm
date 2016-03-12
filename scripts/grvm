@@ -14,6 +14,9 @@ function __grvmFn {
 			arg=`$HOME/.grvm/bin/grvm -s set $2 $3 $4 $5`
 			__grvmEval $arg
 			;;
+		"upgrade")
+			curl -s https://raw.githubusercontent.com/Bugagazavr/grvm/master/install.sh | bash --
+			;;
 		*)
 			$HOME/.grvm/bin/grvm "$@"
 			;;
