@@ -1,4 +1,17 @@
 language: go
 go:
-  - 1.5
-  - 1.6
+- 1.5
+- 1.6
+deploy:
+  provider: releases
+  file:
+  - crosscompile/darwin_amd64_grvm.tar.gz
+  - crosscompile/linux_386_grvm.tar.gz
+  - crosscompile/linux_amd64_grvm.tar.gz
+  - crosscompile/linux_arm_grvm.tar.gz
+  skip_cleanup: true
+  on:
+    tags: true
+  user: Bugagazavr
+  password:
+    secure: waBRRM6tX0Opnc0xNnADgq67nHC9t6+yiFuK05nfzb/2h3CO7MH7nIL4d64dti+Bm0EieAb2cpxIq1mdxWKKXbhExCqddLLLtHWjxSKrVlm7I1xJQKri76UyY+Mxy4B2fneHpOpKL0JQ0s3aTYZVvF5ry1V0R3xTb+I7zM0wL5+zO8wKW/5ui5fpWtriB+F1MLI6NoJC4UmL+cEVAQVYmYxMz2X3s9ry0BEPwBuEqgdAIuZaBlRePj1SD2SQtnnvh89PJZLYPY9bmhxNzpMNhXS/vXU9fNaQfow1C9NEIuikCLGv2mCfeT0hFrXgkq66PURv0/YIYnt7rD6Z8VQ6fsaqtza1xYTfdVqmjs/wTIW1eBdwI+Ur5APdwMYZ6W42BAcpGaKnIOMeI0m9Vu/AG9PNxcw/KU6pTTmb9/5KbPAnmRaOtndq7RzJHlh4IMh7fGfbN38wexR1UZ4lzPr7ogT9cqKw3ubPIIri9lYx3yQ1FqWrTvZkR/jcx7tuqEBX7cDkHitQ+o5GuALxNGXNVHwi5DJywfoO2OerQmXBxYnCHz6NSgNB6lfA5juvYNwI7Js1dmh4sU4QTpUdYDWnT5YHzaJcvY2o2HXjc61I+S/DLSj+eqsQ6zsXNJkx7+ewmgS/6HbOfn4iczqoJxcfPVZ7N3MEZYm8J0gs8b20SzU=
