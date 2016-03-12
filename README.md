@@ -1,4 +1,4 @@
-# GRVM
+# GRVM [![Build Status](https://travis-ci.org/Bugagazavr/grvm.svg?branch=master)](https://travis-ci.org/Bugagazavr/grvm)
 
 RVM replacement
 
