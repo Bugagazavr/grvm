@@ -37,8 +37,8 @@ func Print(c *cli.Context, args ...string) {
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "RVM"
-	app.Usage = "RVM"
+	app.Name = "GRVM"
+	app.Usage = "GRVM"
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name: "shell, s",
