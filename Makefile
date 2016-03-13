@@ -2,14 +2,11 @@
 
 VERSION := $(shell if [ -z "$$TRAVIS_TAG" ]; then echo "dev"; else echo "$$TRAVIS_TAG" | tail -c +2; fi)
 
-all: deps crosscompile version dist
+all: deps crosscompile dist
 
 deps:
 	go get github.com/mitchellh/gox
 	go get ./...
-
-build:
-	go build grvm.go
 
 crosscompile:
 	gox --osarch="linux/amd64" --output="crosscompile/linux_amd64_grvm" --ldflags='-X main.version=${VERSION}'

@@ -46,7 +46,7 @@ function tmpCleanup {
 
 case $1 in
 	"devinstall")
-		go build --ldflags '-X main.version=dev' grvm.go
+		go build --ldflags '-X main.version=dev' -o grvm *.go
 		rm -rf $HOME/.grvm/bin
 		rm -rf $HOME/.grvm/scripts
 		mkdir -p $HOME/.grvm/bin
