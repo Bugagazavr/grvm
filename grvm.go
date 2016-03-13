@@ -8,7 +8,8 @@ import (
 )
 
 const (
-	rubyBuildRepo = "https://github.com/rbenv/ruby-build.git"
+	rubyBuildRepo    = "https://github.com/rbenv/ruby-build.git"
+	latestReleaseUrl = "https://api.github.com/repos/Bugagazavr/grvm/releases/latest"
 )
 
 // System
@@ -85,6 +86,12 @@ func main() {
 			Aliases: []string{"i"},
 			Usage:   "Instqalls ruby",
 			Action:  GetInstall,
+		},
+		{
+			Name:    "upgrade",
+			Aliases: []string{"ug"},
+			Usage:   "Get upgrade information",
+			Action:  GetUpgrade,
 		},
 	}
 

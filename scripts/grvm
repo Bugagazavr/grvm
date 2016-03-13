@@ -5,13 +5,11 @@ function __grvmEval {
 }
 
 function __grvmUpgrade {
-	availableVersion=$(curl -s https://api.github.com/repos/Bugagazavr/grvm/releases/latest | grep 'tag_name' | cut -d\" -f4 | tail -c +2)
-	currentVersion=$(__grvmFn --version | awk '{print $3}')
+	arg=`$HOME/.grvm/bin/grvm -s upgrade`
+	__grvmEval $arg
 
-	if [[ "$availableVersion" == "$currentVersion" ]]; then
-		echo "You have latest GRVM $currentVersion"
-	else
-		curl -s https://raw.githubusercontent.com/Bugagazavr/grvm/master/install.sh | bash --
+	if [ ! -z "$grvm_upgrade_version" ] && [ ! -z "$grvm_upgrade_url" ]; then
+		curl -s https://raw.githubusercontent.com/Bugagazavr/grvm/master/install.sh | bash -s upgrade
 	fi
 }
 

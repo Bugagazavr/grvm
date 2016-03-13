@@ -44,6 +44,33 @@ function tmpCleanup {
 	[ -f "/tmp/grvm.tar.gz" ] && rm -rf /tmp/grvm.tar.gz
 }
 
+function grvmInstall {
+	echo "Extracting"
+	mkdir -p /tmp/grvm
+	tar -xf /tmp/grvm.tar.gz --directory=/tmp/grvm
+
+	if [ ! -d "$HOME/.grvm" ]; then
+		echo "Creating $HOME/.grvm directory"
+		mkdir -p $HOME/.grvm/{bin,scripts}
+	else
+		echo "Cleanup existing $HOME/.grvm directory"
+		[ -d "$HOME/.grvm/bin" ] && rm -f $HOME/.grvm/bin/*
+		[ -d "$HOMR/.grvm/scripts" ] && rm -f $HOME/.grvm/scripts/*
+		mkdir -p $HOME/.grvm/{bin,scripts}
+	fi
+
+	echo "Install GRVM"
+	cp /tmp/grvm/bin/grvm $HOME/.grvm/bin/grvm
+	cp /tmp/grvm/scripts/grvm $HOME/.grvm/scripts/grvm
+
+	echo "Delete installtion files"
+	tmpCleanup
+
+	source $HOME/.grvm/scripts/grvm
+	__grvmFn doctor > /dev/null
+	echo "GRVM has been installed"
+}
+
 case $1 in
 	"devinstall")
 		go build --ldflags '-X main.version=dev' -o grvm *.go
@@ -55,6 +82,13 @@ case $1 in
 		cp grvm $HOME/.grvm/bin/grvm
 		$HOME/.grvm/bin/grvm doctor
 		;;
+	"upgrade")
+		echo "Downloading upgrade $grvm_upgrade_url"
+		curl -L -s $grvm_upgrade_url > /tmp/grvm.tar.gz
+		echo "Downloading finished"
+
+		grvmInstall
+		;;
 	*)
 		echo "Prepare to install GRVM"
 		tmpCleanup
@@ -64,29 +98,6 @@ case $1 in
 		curl -L -s $downloadUrl > /tmp/grvm.tar.gz
 		echo "Downloading finished"
 
-		echo "Extracting"
-		mkdir -p /tmp/grvm
-		tar -xf /tmp/grvm.tar.gz --directory=/tmp/grvm
-
-		if [ ! -d "$HOME/.grvm" ]; then
-			echo "Creating $HOME/.grvm directory"
-			mkdir -p $HOME/.grvm/{bin,scripts}
-		else
-			echo "Cleanup existing $HOME/.grvm directory"
-			[ -d "$HOME/.grvm/bin" ] && rm -f $HOME/.grvm/bin/*
-			[ -d "$HOMR/.grvm/scripts" ] && rm -f $HOME/.grvm/scripts/*
-			mkdir -p $HOME/.grvm/{bin,scripts}
-		fi
-
-		echo "Install GRVM"
-		cp /tmp/grvm/bin/grvm $HOME/.grvm/bin/grvm
-		cp /tmp/grvm/scripts/grvm $HOME/.grvm/scripts/grvm
-
-		echo "Delete installtion files"
-		tmpCleanup
-
-		source $HOME/.grvm/scripts/grvm
-		__grvmFn doctor > /dev/null
-		echo "GRVM has been installed"
+		grvmInstall
 		;;
 esac
