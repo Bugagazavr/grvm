@@ -26,6 +26,16 @@ function __grvmFn {
 		"upgrade")
 			__grvmUpgrade
 			;;
+		"list"|"l")
+			case $2 in
+				"-k"|"--known")
+					$HOME/.grvm/bin/grvm $1 $2 | less
+					;;
+				*)
+					$HOME/.grvm/bin/grvm "$@"
+					;;
+			esac
+			;;
 		*)
 			$HOME/.grvm/bin/grvm "$@"
 			;;

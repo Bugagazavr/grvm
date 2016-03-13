@@ -46,6 +46,10 @@ func GetUpgrade(c *cli.Context) {
 
 	if releaseVersion == version {
 		Print(c, "You have already latest version:", releaseVersion)
+		if c.GlobalBool("shell") {
+			fmt.Println("unset grvm_upgrade_url")
+			fmt.Println("unset grvm_upgrade_version")
+		}
 		os.Exit(0)
 	}
 
