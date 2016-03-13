@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 	"os/exec"
@@ -165,55 +164,4 @@ func update(c *cli.Context) {
 	}
 
 	updateAvailableRubies()
-}
-
-func updateAvailableRubies() {
-	db, err := getDB()
-	if err != nil {
-		fmt.Println("Cannot open database file:", dbPath)
-		os.Exit(1)
-	}
-	defer db.Close()
-
-	tx, err := db.Begin(true)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	defer tx.Rollback()
-
-	b, err := getBucket(tx, []byte("rubies"))
-	if err != nil {
-		fmt.Print(err.Error())
-		os.Exit(1)
-	}
-
-	buffer := bytes.NewBuffer(make([]byte, 0))
-
-	cmd := exec.Command(rubyBuildExecutable, "--definitions")
-	cmd.Stdout = buffer
-	cmd.Stderr = buffer
-
-	if err := cmd.Run(); err != nil {
-		os.Exit(1)
-	}
-
-	rubies := strings.Split(string(buffer.Bytes()), "\n")
-
-	for _, ruby := range rubies {
-		if len(ruby) != 0 {
-			rubyDirectory := fmt.Sprintf("%s/%s", rubiesDirectory, ruby)
-			if _, err := os.Stat(rubyDirectory); err == nil {
-				b.Put([]byte(ruby), []byte(rubyDirectory))
-			} else {
-				b.Put([]byte(ruby), make([]byte, 0))
-			}
-		}
-	}
-
-	if err := tx.Commit(); err != nil {
-		fmt.Println("Cannot commit changes to rubies bucket")
-		os.Exit(1)
-	}
-
 }

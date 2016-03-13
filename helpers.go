@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/boltdb/bolt"
@@ -58,6 +61,50 @@ func rebuildPaths() string {
 	}
 
 	return strings.Join(newPaths, ":")
+}
+
+func updateAvailableRubies() error {
+	db, err := getDB()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	tx, err := db.Begin(true)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	b, err := getBucket(tx, []byte("rubies"))
+	if err != nil {
+		return err
+	}
+
+	buffer := bytes.NewBuffer(make([]byte, 0))
+
+	cmd := exec.Command(rubyBuildExecutable, "--definitions")
+	cmd.Stdout = buffer
+	cmd.Stderr = buffer
+
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	rubies := strings.Split(string(buffer.Bytes()), "\n")
+
+	for _, ruby := range rubies {
+		if len(ruby) != 0 {
+			rubyDirectory := fmt.Sprintf("%s/%s", rubiesDirectory, ruby)
+			if _, err := os.Stat(rubyDirectory); err == nil {
+				b.Put([]byte(ruby), []byte(rubyDirectory))
+			} else {
+				b.Put([]byte(ruby), make([]byte, 0))
+			}
+		}
+	}
+
+	return tx.Commit()
 }
 
 func getDefaultRuby(c *cli.Context) (string, error) {
