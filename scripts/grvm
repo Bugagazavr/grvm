@@ -42,6 +42,12 @@ function __grvmFn {
 	esac
 }
 
+function cd {
+	builtin cd $*
+	arg=`$HOME/.grvm/bin/grvm -s hook`
+	__grvmEval $arg
+}
+
 alias grvm=__grvmFn
 
 __grvmFn init

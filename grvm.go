@@ -99,6 +99,12 @@ func main() {
 			Usage:   "Get upgrade information",
 			Action:  GetUpgrade,
 		},
+		{
+			Name:    "hook",
+			Aliases: []string{"h"},
+			Usage:   "Hook to read Gemfile",
+			Action:  GetHook,
+		},
 	}
 
 	app.Run(os.Args)
