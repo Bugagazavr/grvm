@@ -35,9 +35,11 @@ func set(c *cli.Context) {
 		os.Exit(1)
 	}
 
-	if err := checkCandidate(tx, candidate); err != nil {
-		Print(c, err.Error())
-		os.Exit(1)
+	if candidate != "system" {
+		if err := checkCandidate(tx, candidate); err != nil {
+			Print(c, err.Error())
+			os.Exit(1)
+		}
 	}
 
 	if c.Bool("default") {
