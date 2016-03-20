@@ -63,24 +63,7 @@ func rebuildPaths() string {
 	return strings.Join(newPaths, ":")
 }
 
-func updateAvailableRubies() error {
-	db, err := getDB()
-	if err != nil {
-		return err
-	}
-	defer db.Close()
-
-	tx, err := db.Begin(true)
-	if err != nil {
-		return err
-	}
-	defer tx.Rollback()
-
-	b, err := getBucket(tx, []byte("rubies"))
-	if err != nil {
-		return err
-	}
-
+func updateRubiesBucket(b *bolt.Bucket) error {
 	buffer := bytes.NewBuffer(make([]byte, 0))
 
 	cmd := exec.Command(rubyBuildExecutable, "--definitions")
@@ -102,6 +85,35 @@ func updateAvailableRubies() error {
 				b.Put([]byte(ruby), make([]byte, 0))
 			}
 		}
+	}
+
+	return nil
+}
+
+func updateAvailableRubiesWithTx(tx *bolt.Tx) error {
+	b, err := getBucket(tx, []byte("rubies"))
+	if err != nil {
+		return err
+	}
+
+	return updateRubiesBucket(b)
+}
+
+func updateAvailableRubies() error {
+	db, err := getDB()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	tx, err := db.Begin(true)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := updateAvailableRubiesWithTx(tx); err != nil {
+		return err
 	}
 
 	return tx.Commit()

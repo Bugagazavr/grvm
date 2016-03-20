@@ -84,8 +84,14 @@ func main() {
 		{
 			Name:    "install",
 			Aliases: []string{"i"},
-			Usage:   "Instqalls ruby",
+			Usage:   "Installs ruby",
 			Action:  GetInstall,
+		},
+		{
+			Name:    "uninstall",
+			Aliases: []string{"ui"},
+			Usage:   "grvm uninstall <ruby_version>",
+			Action:  GetUninstall,
 		},
 		{
 			Name:    "upgrade",
