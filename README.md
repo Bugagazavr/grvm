@@ -7,6 +7,7 @@ RVM replacement
 * Less shell scripts
 * Builded on Go with BoltDB
 * Ruby-build
+* Hooks
 
 ## TODO
 
