@@ -10,7 +10,6 @@ RVM replacement
 
 ## TODO
 
-* Hooks to set ruby version (`.ruby-verion`, `Gemfile`)
 * Gemsets maybe
 
 ## Installation
