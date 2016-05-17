@@ -1,6 +1,6 @@
 #!/bin/sh
 
-function getArch {
+getArch() {
 	arch=`uname -m`
 	case $arch in
 		"386"|"i386")
@@ -19,7 +19,7 @@ function getArch {
 	esac
 }
 
-function getPlatform {
+getPlatform() {
 	platform=`uname -s`
 	case $platform in
 		"Darwin"|"darwin")
@@ -35,16 +35,16 @@ function getPlatform {
 	esac
 }
 
-function getLatesDownloadUrl {
+getLatesDownloadUrl() {
 	echo $(curl -L -s https://api.github.com/repos/Bugagazavr/grvm/releases/latest | grep 'browser_' | grep $(getPlatform) | grep $(getArch) | cut -d\" -f4)
 }
 
-function tmpCleanup {
+tmpCleanup() {
 	[ -d "/tmp/grvm" ] && rm -rf /tmp/grvm
 	[ -f "/tmp/grvm.tar.gz" ] && rm -rf /tmp/grvm.tar.gz
 }
 
-function grvmInstall {
+grvmInstall() {
 	echo "Extracting"
 	mkdir -p /tmp/grvm
 	tar -xf /tmp/grvm.tar.gz --directory=/tmp/grvm
